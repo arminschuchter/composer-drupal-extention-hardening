@@ -25,6 +25,7 @@ class Config {
     'drupal/libraries' => ['tests'],
     'drupal/time_field' => ['tests'],
     'drupal/token' => ['tests'],
+    'maxstrim/juicebox' => ['full.html'],
   ];
 
   /**
