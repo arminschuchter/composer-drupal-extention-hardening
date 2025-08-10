@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MarchMol\Composer\Plugin\DrupalExtentionHardening;
 
 use Composer\Composer;
@@ -58,7 +60,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
   /**
    * {@inheritdoc}
    */
-  public function activate(Composer $composer, IOInterface $io) {
+  public function activate(Composer $composer, IOInterface $io): void {
     $this->composer = $composer;
     $this->io = $io;
 
@@ -69,19 +71,19 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
   /**
    * {@inheritdoc}
    */
-  public function deactivate(Composer $composer, IOInterface $io) {
+  public function deactivate(Composer $composer, IOInterface $io): void {
   }
 
   /**
    * {@inheritdoc}
    */
-  public function uninstall(Composer $composer, IOInterface $io) {
+  public function uninstall(Composer $composer, IOInterface $io): void {
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     return [
       ScriptEvents::POST_UPDATE_CMD => 'onPostCmd',
       ScriptEvents::POST_INSTALL_CMD => 'onPostCmd',
@@ -96,7 +98,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @param \Composer\Script\Event $event
    *   The Composer event.
    */
-  public function onPostCmd(Event $event) {
+  public function onPostCmd(Event $event): void {
     $this->cleanAllPackages();
   }
 
@@ -106,7 +108,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @param \Composer\Installer\PackageEvent $event
    *   The package event.
    */
-  public function onPostPackageInstall(PackageEvent $event) {
+  public function onPostPackageInstall(PackageEvent $event): void {
     $this->cleanPackage($event->getOperation()->getPackage());
   }
 
@@ -116,7 +118,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @param \Composer\Installer\PackageEvent $event
    *   The package event.
    */
-  public function onPostPackageUpdate(PackageEvent $event) {
+  public function onPostPackageUpdate(PackageEvent $event): void {
     $this->cleanPackage($event->getOperation()->getTargetPackage());
   }
 
@@ -126,7 +128,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @return \Composer\Package\PackageInterface[]
    *   The list of installed packages.
    */
-  protected function getInstalledPackages() {
+  protected function getInstalledPackages(): array {
     return $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
   }
 
@@ -140,7 +142,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    *   Path to the install path for the package, relative to the project. This
    *   accounts for changes made by composer/installers, if any.
    */
-  protected function getInstallPathForPackage(PackageInterface $package) {
+  protected function getInstallPathForPackage(PackageInterface $package): string {
     return $this->composer->getInstallationManager()->getInstallPath($package);
   }
 
@@ -149,7 +151,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    *
    * This applies in the context of a post-command event.
    */
-  public function cleanAllPackages() {
+  public function cleanAllPackages(): void {
     // Get a list of all the packages available after the update or install
     // command.
     $installed_packages = [];
@@ -167,10 +169,10 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
     $packages_to_be_cleaned = array_intersect_key($cleanup_paths, $installed_packages);
 
     if (!$packages_to_be_cleaned) {
-      $this->io->writeError('<info>Packages already clean.</info>');
+      $this->io->writeError('<info>Packages already clean. (drupal extention)</info>');
       return;
     }
-    $this->io->writeError('<info>Cleaning installed packages.</info>');
+    $this->io->writeError('<info>Cleaning installed packages. (drupal extention)</info>');
 
     foreach ($packages_to_be_cleaned as $package_name => $paths) {
       $this->cleanPathsForPackage($installed_packages[$package_name], $all_cleanup_paths[$package_name]);
@@ -185,7 +187,7 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @param \Composer\Package\PackageInterface $package
    *   The package to clean.
    */
-  public function cleanPackage(PackageInterface $package) {
+  public function cleanPackage(PackageInterface $package): void {
     // Normalize package names to lower case.
     $package_name = strtolower($package->getName());
     if (isset($this->packagesAlreadyCleaned[$package_name])) {
@@ -206,9 +208,9 @@ class DrupalExtentionHardeningPlugin implements PluginInterface, EventSubscriber
    * @param \Composer\Package\PackageInterface $package
    *   The package to clean.
    * @param string[] $paths_for_package
-   *   List of directories in $package_name to remove
+   *   List of directories in $package_name to remove.
    */
-  protected function cleanPathsForPackage(PackageInterface $package, $paths_for_package) {
+  protected function cleanPathsForPackage(PackageInterface $package, $paths_for_package): void {
     // Whatever happens here, this package counts as cleaned so that we don't
     // process it more than once.
     $package_name = strtolower($package->getName());
