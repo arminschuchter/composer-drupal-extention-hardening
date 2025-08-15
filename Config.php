@@ -21,8 +21,11 @@ class Config {
   protected static $defaultConfig = [
     'drupal/auto_entitylabel' => ['tests'],
     'drupal/backup_migrate' => ['tests'],
+    'drupal/imce' => ['tests'],
     'drupal/juicebox' => ['tests'],
     'drupal/libraries' => ['tests'],
+    'drupal/photoswipe' => ['tests'],
+    'drupal/statistics' => ['tests'],
     'drupal/time_field' => ['tests'],
     'drupal/token' => ['tests'],
     'maxstrim/juicebox' => ['full.html'],
