@@ -21,6 +21,14 @@ class Config {
   protected static $defaultConfig = [
     'drupal/auto_entitylabel' => ['tests'],
     'drupal/backup_migrate' => ['tests'],
+    'drupal/charts' => [
+      'tests',
+      'modules/charts_billboard/tests',
+      'modules/charts_c3/tests',
+      'modules/charts_chartjs/tests',
+      'modules/charts_google/tests',
+      'modules/charts_highcharts/tests',
+    ],
     'drupal/imce' => ['tests'],
     'drupal/juicebox' => ['tests'],
     'drupal/libraries' => ['tests'],
@@ -32,13 +40,20 @@ class Config {
     'drupal/statistics' => ['tests'],
     'drupal/time_field' => ['tests'],
     'drupal/token' => ['tests'],
+    'drupal/visitors' => [
+      'tests',
+      'visitors_geoip/tests',
+    ],
+    'maxmind-db/reader' => ['ext/tests'],
     'maxstrim/juicebox' => ['full.html'],
+    'mustangostang/spyc' => ['tests'],
     'npm-asset/photoswipe' => ['src'],
     'npm-asset/photoswipe-dynamic-caption-plugin' => [
       '.gitattributes',
       'index.html',
       'rollup.config.js',
     ],
+    'oomphinc/composer-installers-extender' => ['tests'],
   ];
 
   /**
