@@ -23,7 +23,9 @@ class Config {
     'drupal/backup_migrate' => ['tests'],
     'drupal/charts' => [
       'tests',
+      'modules/charts_api_example',
       'modules/charts_billboard/tests',
+      'modules/charts_blocks/tests',
       'modules/charts_c3/tests',
       'modules/charts_chartjs/tests',
       'modules/charts_google/tests',
